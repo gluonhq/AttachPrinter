@@ -1,0 +1,14 @@
+pluginManagement {
+    repositories {
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'attach-printer'
+
+include 'printer'
+
+project(':printer').projectDir                     = file('modules/printer')

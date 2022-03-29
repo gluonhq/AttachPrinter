@@ -1,0 +1,6 @@
+[
+  {
+    "name" : "com.gluonhq.attachextended.printer.impl.AndroidPrinterService",
+    "methods":[{"name":"addBTDevice","parameterTypes":["java.lang.String","java.lang.String"] }]
+  }
+]
