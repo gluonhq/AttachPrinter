@@ -104,7 +104,7 @@ public class DalvikPrinterService {
         }
     }
 
-    private void print(String message, String address) {
+    private void print(final String message, final String address, final long timeout) {
         if (message == null || message.isEmpty()) {
             Log.e(TAG, "DalvikPrinter: Invalid message: message was null or empty");
             return;
@@ -117,39 +117,50 @@ public class DalvikPrinterService {
             Log.d(TAG, "DalvikPrinter: Printing message: " + message + " to address: " + address);
         }
 
-        try {
-            BluetoothDevice btDevice = adapter.getRemoteDevice(address);
-            BluetoothSocket btSocket = btDevice.createRfcommSocketToServiceRecord(APPLICATION_UUID);
-            adapter.cancelDiscovery();
+        Thread printThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final BluetoothDevice btDevice = adapter.getRemoteDevice(address);
+                    final BluetoothSocket btSocket = btDevice.createRfcommSocketToServiceRecord(APPLICATION_UUID);
+                    adapter.cancelDiscovery();
 
-            if (debug) {
-                Log.d(TAG, "DalvikPrinter: Connecting device: " + btDevice);
-            }
-            if (!btSocket.isConnected()) {
-                btSocket.connect();
-            }
-            if (debug) {
-                Log.d(TAG, "DalvikPrinter: Device is connected: " + btSocket.isConnected());
-            }
-            OutputStream os = null;
-            try {
-                os = btSocket.getOutputStream();
-                os.write(cc);
-                os.write(message.getBytes());
-                os.write(CL_CF);
-                os.flush();
-            } finally {
-                if (os != null) {
-                    os.close();
+                    if (debug) {
+                        Log.d(TAG, "DalvikPrinter: Connecting device: " + btDevice);
+                    }
+                    if (!btSocket.isConnected()) {
+                        btSocket.connect();
+                    }
+                    if (debug) {
+                        Log.d(TAG, "DalvikPrinter: Device is connected: " + btSocket.isConnected());
+                    }
+
+                    OutputStream os = null;
+                    try {
+                        os = btSocket.getOutputStream();
+                        os.write(cc);
+                        os.write(message.getBytes());
+                        os.write(CL_CF);
+                        os.flush();
+                        try {
+                            Thread.sleep(timeout);
+                        } catch (InterruptedException ie) {
+                        }
+                    } finally {
+                        if (os != null) {
+                            os.close();
+                        }
+                        btSocket.close();
+                    }
+                    if (debug) {
+                        Log.d(TAG, "DalvikPrinter: Done printing");
+                    }
+                } catch (IOException ex) {
+                    Log.e(TAG, "DalvikPrinter: Error printing: " + ex);
                 }
-                btSocket.close();
             }
-            if (debug) {
-                Log.d(TAG, "DalvikPrinter: Done printing");
-            }
-        } catch (IOException ex) {
-            Log.e(TAG, "DalvikPrinter: Error printing: " + ex);
-        }
+        });
+        printThread.start();
     }
 
     private native void detectedBTDevice(String name, String address);

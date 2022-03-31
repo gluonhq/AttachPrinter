@@ -47,8 +47,10 @@ public interface PrinterService {
      *
      * @param message A string to be printed.
      * @param address A string with the address of the device.
+     * @param timeout time in milliseconds to wait before closing the
+     *                communication with the printer
      */
-    void print(String message, String address);
+    void print(String message, String address, long timeout);
 
     /**
      * Returns an observable list of BT devices

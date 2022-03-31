@@ -43,7 +43,7 @@ static void initializeDalvikHandles() {
     jPrinterServiceClass = GET_REGISTER_DALVIK_CLASS(jPrinterServiceClass, "com/gluonhq/helloandroid/DalvikPrinterService");
     ATTACH_DALVIK();
     jmethodID jPrinterServiceInitMethod = (*dalvikEnv)->GetMethodID(dalvikEnv, jPrinterServiceClass, "<init>", "(Landroid/app/Activity;)V");
-    jPrinterServicePrintMethod = (*dalvikEnv)->GetMethodID(dalvikEnv, jPrinterServiceClass, "print", "(Ljava/lang/String;Ljava/lang/String;)V");
+    jPrinterServicePrintMethod = (*dalvikEnv)->GetMethodID(dalvikEnv, jPrinterServiceClass, "print", "(Ljava/lang/String;Ljava/lang/String;J)V");
 
     jobject jActivity = substrateGetActivity();
     jobject jtmpobj = (*dalvikEnv)->NewObject(dalvikEnv, jPrinterServiceClass, jPrinterServiceInitMethod, jActivity);
@@ -78,14 +78,14 @@ JNI_OnLoad_printer(JavaVM *vm, void *reserved)
 // from Java to Android
 
 JNIEXPORT void JNICALL Java_com_gluonhq_attachextended_printer_impl_AndroidPrinterService_printMessage
-(JNIEnv *env, jclass jClass, jstring jmessage, jstring jaddress)
+(JNIEnv *env, jclass jClass, jstring jmessage, jstring jaddress, jlong jtimeout)
 {
     const char *messageChars = (*env)->GetStringUTFChars(env, jmessage, NULL);
     const char *addressChars = (*env)->GetStringUTFChars(env, jaddress, NULL);
     ATTACH_DALVIK();
     jstring dmessage = (*dalvikEnv)->NewStringUTF(dalvikEnv, messageChars);
     jstring daddress = (*dalvikEnv)->NewStringUTF(dalvikEnv, addressChars);
-    (*dalvikEnv)->CallVoidMethod(dalvikEnv, jDalvikPrinterService, jPrinterServicePrintMethod, dmessage, daddress);
+    (*dalvikEnv)->CallVoidMethod(dalvikEnv, jDalvikPrinterService, jPrinterServicePrintMethod, dmessage, daddress, jtimeout);
     DETACH_DALVIK();
     (*env)->ReleaseStringUTFChars(env, jmessage, messageChars);
     (*env)->ReleaseStringUTFChars(env, jaddress, addressChars);

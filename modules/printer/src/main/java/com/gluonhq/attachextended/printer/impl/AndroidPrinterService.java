@@ -43,9 +43,9 @@ public class AndroidPrinterService implements PrinterService {
 
 
     @Override
-    public void print(String message, String address) {
+    public void print(String message, String address, long timeout) {
         if (message != null && !message.isEmpty() && address != null && !address.isEmpty()) {
-            printMessage(message, address);
+            printMessage(message, address, timeout);
         }
     }
 
@@ -54,7 +54,7 @@ public class AndroidPrinterService implements PrinterService {
         return devices;
     }
 
-    private native void printMessage(String message, String address);
+    private native void printMessage(String message, String address, long timeout);
 
     // callback
     private static void addBTDevice(String name, String address) {
