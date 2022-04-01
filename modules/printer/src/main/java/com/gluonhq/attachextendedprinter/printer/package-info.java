@@ -27,7 +27,7 @@
  */
 
 /**
- * Primary API package for AttachExtended - Printer service,
- * contains the interface {@link com.gluonhq.attachextended.printer.PrinterService} and related classes.
+ * Primary API package for attachextendedprinter - Printer service,
+ * contains the interface {@link com.gluonhq.attachextendedprinter.printer.PrinterService} and related classes.
  */
-package com.gluonhq.attachextended.printer;
+package com.gluonhq.attachextendedprinter.printer;

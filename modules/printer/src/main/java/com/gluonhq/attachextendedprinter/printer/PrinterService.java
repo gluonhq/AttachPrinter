@@ -25,9 +25,37 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.gluonhq.attachextended.printer.impl;
+package com.gluonhq.attachextendedprinter.printer;
 
-import com.gluonhq.attachextended.printer.PrinterService;
+import com.gluonhq.attach.util.Services;
+import javafx.collections.ObservableList;
 
-public abstract class DummyPrinterService implements PrinterService {
+import java.util.Optional;
+
+public interface PrinterService {
+
+    /**
+     * Returns an instance of {@link PrinterService}.
+     * @return An instance of {@link PrinterService}.
+     */
+    static Optional<PrinterService> create() {
+        return Services.get(PrinterService.class);
+    }
+
+    /**
+     * Prints a message to a device.
+     *
+     * @param message A string to be printed.
+     * @param address A string with the address of the device.
+     * @param timeout time in milliseconds to wait before closing the
+     *                communication with the printer
+     */
+    void print(String message, String address, long timeout);
+
+    /**
+     * Returns an observable list of BT devices
+     * @return observable list of btDevices
+     */
+    ObservableList<BTDevice> deviceList();
+
 }

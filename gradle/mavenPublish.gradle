@@ -43,9 +43,9 @@ publishing {
             artifact desktopJar
 
             pom {
-                name = "Gluon Attach Extended (${project.name})"
+                name = "Gluon Attach Extended Printer (${project.name})"
                 description = "API for accessing ${project.name} features"
-                url = 'https://github.com/gluonhq/AttachExtended'
+                url = 'https://github.com/gluonhq/AttachPrinter'
 
                 licenses {
                     license {

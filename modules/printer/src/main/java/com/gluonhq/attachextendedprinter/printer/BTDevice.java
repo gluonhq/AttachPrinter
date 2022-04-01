@@ -25,40 +25,43 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.gluonhq.attachextended.printer.impl;
+package com.gluonhq.attachextendedprinter.printer;
 
-import com.gluonhq.attachextended.printer.BTDevice;
-import com.gluonhq.attachextended.printer.PrinterService;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.Objects;
 
-public class AndroidPrinterService implements PrinterService {
+public class BTDevice {
 
-    static {
-        System.loadLibrary("printer");
+    private final String name;
+    private final String address;
+
+    public BTDevice(String name, String address) {
+        this.name = name;
+        this.address = address;
     }
 
-    private static final ObservableList<BTDevice> devices = FXCollections.observableArrayList();
+    public String getAddress() {
+        return address;
+    }
 
-
-    @Override
-    public void print(String message, String address, long timeout) {
-        if (message != null && !message.isEmpty() && address != null && !address.isEmpty()) {
-            printMessage(message, address, timeout);
-        }
+    public String getName() {
+        return name;
     }
 
     @Override
-    public ObservableList<BTDevice> deviceList() {
-        return devices;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BTDevice btDevice = (BTDevice) o;
+        return Objects.equals(name, btDevice.name) && Objects.equals(address, btDevice.address);
     }
 
-    private native void printMessage(String message, String address, long timeout);
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, address);
+    }
 
-    // callback
-    private static void addBTDevice(String name, String address) {
-        BTDevice btDevice = new BTDevice(name, address);
-        Platform.runLater(() -> devices.add(btDevice));
+    @Override
+    public String toString() {
+        return "BTDevice{" + "name=" + name + ", address=" + address + '}';
     }
 }

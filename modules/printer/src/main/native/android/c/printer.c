@@ -35,7 +35,7 @@ static jobject jDalvikPrinterService;
 static jmethodID jPrinterServicePrintMethod;
 
 static void initializeGraalHandles(JNIEnv *graalEnv) {
-    jGraalPrinterClass = (*graalEnv)->NewGlobalRef(graalEnv, (*graalEnv)->FindClass(graalEnv, "com/gluonhq/attachextended/printer/impl/AndroidPrinterService"));
+    jGraalPrinterClass = (*graalEnv)->NewGlobalRef(graalEnv, (*graalEnv)->FindClass(graalEnv, "com/gluonhq/attachextendedprinter/printer/impl/AndroidPrinterService"));
     jGraalAddBTDeviceMethod = (*graalEnv)->GetStaticMethodID(graalEnv, jGraalPrinterClass, "addBTDevice", "(Ljava/lang/String;Ljava/lang/String;)V");
 }
 
@@ -77,7 +77,7 @@ JNI_OnLoad_printer(JavaVM *vm, void *reserved)
 
 // from Java to Android
 
-JNIEXPORT void JNICALL Java_com_gluonhq_attachextended_printer_impl_AndroidPrinterService_printMessage
+JNIEXPORT void JNICALL Java_com_gluonhq_attachextendedprinter_printer_impl_AndroidPrinterService_printMessage
 (JNIEnv *env, jclass jClass, jstring jmessage, jstring jaddress, jlong jtimeout)
 {
     const char *messageChars = (*env)->GetStringUTFChars(env, jmessage, NULL);

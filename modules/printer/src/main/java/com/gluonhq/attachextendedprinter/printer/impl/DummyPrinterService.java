@@ -25,43 +25,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.gluonhq.attachextended.printer;
+package com.gluonhq.attachextendedprinter.printer.impl;
 
-import java.util.Objects;
+import com.gluonhq.attachextendedprinter.printer.PrinterService;
 
-public class BTDevice {
-
-    private final String name;
-    private final String address;
-
-    public BTDevice(String name, String address) {
-        this.name = name;
-        this.address = address;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BTDevice btDevice = (BTDevice) o;
-        return Objects.equals(name, btDevice.name) && Objects.equals(address, btDevice.address);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, address);
-    }
-
-    @Override
-    public String toString() {
-        return "BTDevice{" + "name=" + name + ", address=" + address + '}';
-    }
+public abstract class DummyPrinterService implements PrinterService {
 }

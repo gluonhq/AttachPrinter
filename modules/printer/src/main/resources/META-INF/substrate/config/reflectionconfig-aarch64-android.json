@@ -1,6 +1,6 @@
 [
   {
-    "name" : "com.gluonhq.attachextended.printer.impl.AndroidPrinterService",
+    "name" : "com.gluonhq.attachextendedprinter.printer.impl.AndroidPrinterService",
     "methods":[{"name":"<init>","parameterTypes":[] }]
   }
 ]

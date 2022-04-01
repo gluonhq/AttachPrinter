@@ -25,37 +25,40 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.gluonhq.attachextended.printer;
+package com.gluonhq.attachextendedprinter.printer.impl;
 
-import com.gluonhq.attach.util.Services;
+import com.gluonhq.attachextendedprinter.printer.BTDevice;
+import com.gluonhq.attachextendedprinter.printer.PrinterService;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.Optional;
+public class AndroidPrinterService implements PrinterService {
 
-public interface PrinterService {
-
-    /**
-     * Returns an instance of {@link PrinterService}.
-     * @return An instance of {@link PrinterService}.
-     */
-    static Optional<PrinterService> create() {
-        return Services.get(PrinterService.class);
+    static {
+        System.loadLibrary("printer");
     }
 
-    /**
-     * Prints a message to a device.
-     *
-     * @param message A string to be printed.
-     * @param address A string with the address of the device.
-     * @param timeout time in milliseconds to wait before closing the
-     *                communication with the printer
-     */
-    void print(String message, String address, long timeout);
+    private static final ObservableList<BTDevice> devices = FXCollections.observableArrayList();
 
-    /**
-     * Returns an observable list of BT devices
-     * @return observable list of btDevices
-     */
-    ObservableList<BTDevice> deviceList();
 
+    @Override
+    public void print(String message, String address, long timeout) {
+        if (message != null && !message.isEmpty() && address != null && !address.isEmpty()) {
+            printMessage(message, address, timeout);
+        }
+    }
+
+    @Override
+    public ObservableList<BTDevice> deviceList() {
+        return devices;
+    }
+
+    private native void printMessage(String message, String address, long timeout);
+
+    // callback
+    private static void addBTDevice(String name, String address) {
+        BTDevice btDevice = new BTDevice(name, address);
+        Platform.runLater(() -> devices.add(btDevice));
+    }
 }

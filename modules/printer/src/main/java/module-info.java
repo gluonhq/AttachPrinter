@@ -25,11 +25,11 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-module com.gluonhq.attachextended.printer {
+module com.gluonhq.attachextendedprinter.printer {
 
     requires com.gluonhq.attach.util;
     requires javafx.graphics;
 
-    exports com.gluonhq.attachextended.printer;
-    exports com.gluonhq.attachextended.printer.impl to com.gluonhq.attach.util;
+    exports com.gluonhq.attachextendedprinter.printer;
+    exports com.gluonhq.attachextendedprinter.printer.impl to com.gluonhq.attach.util;
 }

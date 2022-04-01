@@ -2,5 +2,5 @@ dependencies {
     implementation "com.gluonhq.attach:util:$libraryVersions.attach"
 }
 
-ext.moduleName = 'com.gluonhq.attachextended.printer'
+ext.moduleName = 'com.gluonhq.attachextendedprinter.printer'
 ext.description = 'Common API to access log features'
