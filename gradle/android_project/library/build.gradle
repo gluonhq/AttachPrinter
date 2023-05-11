@@ -1,11 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
+
+    namespace 'com.gluonhq.helloandroid'
+
+    compileSdkVersion 31
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 31
     }
 
     dependencies {
