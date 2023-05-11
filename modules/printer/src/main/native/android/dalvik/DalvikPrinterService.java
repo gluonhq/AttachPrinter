@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, Gluon
+ * Copyright (c) 2022, 2023, Gluon
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 
 import java.io.IOException;
@@ -61,6 +62,16 @@ public class DalvikPrinterService {
     public DalvikPrinterService(Activity activity) {
         this.activity = activity;
         this.debug = Util.isDebug();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            boolean btPermissions = Util.verifyPermissions(new String[]{
+                    "android.permission.BLUETOOTH_SCAN",
+                    "android.permission.BLUETOOTH_ADVERTISE",
+                    "android.permission.BLUETOOTH_CONNECT"});
+            if (!btPermissions) {
+                Log.v(TAG, "No permission to scan and/or be discovered by and/or connect to Bluetooth devices");
+            }
+        }
 
         adapter = BluetoothAdapter.getDefaultAdapter();
         if (!adapter.isEnabled()) {
