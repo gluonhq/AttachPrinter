@@ -63,6 +63,15 @@ public class DalvikPrinterService {
         this.activity = activity;
         this.debug = Util.isDebug();
 
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S) {
+            boolean btPermissions = Util.verifyPermissions(new String[]{
+                    "android.permission.BLUETOOTH",
+                    "android.permission.BLUETOOTH_ADMIN"});
+            if (!btPermissions) {
+                Log.v(TAG, "No permission to use Bluetooth");
+            }
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             boolean btPermissions = Util.verifyPermissions(new String[]{
                     "android.permission.BLUETOOTH_SCAN",
