@@ -48,12 +48,12 @@ The printer service can be added to a Gluon Mobile project like:
 <dependency>
     <groupId>com.gluonhq.attachextendedprinter</groupId>
     <artifactId>printer</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 <dependency>
     <groupId>com.gluonhq.attachextendedprinter</groupId>
     <artifactId>printer</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <classifier>android</classifier>
     <scope>runtime</scope>
 </dependency>
